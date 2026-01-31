@@ -1,45 +1,167 @@
-body {
+/* RESET & CORE TERMINAL STYLES */
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
     margin: 0;
     padding: 0;
-    background: #0f172a;
-    color: white;
-    font-family: Arial, sans-serif;
+    background-color: #000000; /* Pure Black */
+    color: #00ff00;            /* Terminal Green */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-x: hidden;
   }
   
-  .container {
-    text-align: center;
-    padding: 80px 20px;
+  /* CONTAINER */
+  .terminal-window {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
   }
   
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-  }
-  
-  h2 {
+  /* UTILITIES */
+  .spacer {
     margin-top: 40px;
+    margin-bottom: 20px;
   }
   
-  .cards {
+  /* PROMPT STYLE (root@chinmay:~$) */
+  .prompt {
+    color: #00ff00;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  /* HEADER & TYPEWRITER ANIMATION */
+  .command-line {
     display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 30px;
+    align-items: center;
+    flex-wrap: wrap;
   }
   
-  .card {
-    background: #1e293b;
-    padding: 25px 40px;
-    border-radius: 12px;
+  h1.typewriter {
+    font-size: 1.2rem; /* Keep it code-size, not headline-size */
+    margin: 0;
+    color: #ffffff; /* White text for command input */
+    overflow: hidden;
+    border-right: 10px solid transparent; /* Cursor space */
+    white-space: nowrap;
+    width: 0;
+    animation: 
+      typing 2.5s steps(40, end) forwards, 
+      blink-caret 0.75s step-end infinite;
+  }
+  
+  /* OUTPUT TEXT SECTION */
+  .output {
+    margin-top: 20px;
+    margin-left: 0px;
+    color: #cccccc; /* Slightly dimmed white for output logs */
+    border-left: 2px solid #333;
+    padding-left: 15px;
+  }
+  
+  .label {
+    color: #00ff00;
+    font-weight: bold;
+  }
+  
+  /* FILE GRID (Replaces Cards) */
+  .file-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 0;
+  }
+  
+  /* THE LINKS AS FILES */
+  .terminal-file {
+    display: flex;
+    align-items: center;
+    gap: 15px;
     text-decoration: none;
-    color: white;
-    font-size: 1.2rem;
-    transition: 0.3s;
-    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    color: #ffffff;
+    padding: 8px 15px;
+    border: 1px solid #333;
+    transition: all 0.2s ease;
+    background: rgba(0, 255, 0, 0.05);
   }
   
-  .card:hover {
-    background: #2563eb;
-    transform: scale(1.05);
+  .terminal-file:hover {
+    background: #00ff00;
+    color: #000000;
+    border-color: #00ff00;
+    box-shadow: 0 0 15px #00ff00; /* Green Glow */
   }
   
+  .terminal-file:hover .permissions,
+  .terminal-file:hover .owner {
+    color: #000000; /* Invert text on hover */
+  }
+  
+  /* MOCK FILE METADATA */
+  .permissions {
+    color: #666;
+    font-size: 0.85rem;
+    display: none; /* Hidden on very small screens */
+  }
+  
+  .owner {
+    color: #888;
+    font-size: 0.85rem;
+    width: 80px;
+    display: none; /* Hidden on very small screens */
+  }
+  
+  .filename {
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  
+  /* BLINKING CURSOR AT BOTTOM */
+  .cursor {
+    animation: blink 1s step-end infinite;
+    background-color: #00ff00;
+    color: #000000;
+    padding: 0 5px;
+  }
+  
+  /* ANIMATIONS */
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; border-right-color: #00ff00; }
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-right-color: transparent; }
+    50% { border-right-color: #00ff00; }
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  /* RESPONSIVENESS */
+  @media (min-width: 600px) {
+    .permissions, .owner {
+      display: block;
+    }
+    
+    .terminal-window {
+      padding: 80px 40px;
+    }
+  }
+  
+  /* Fix for typewriter on mobile to prevent overflow */
+  @media (max-width: 600px) {
+    h1.typewriter {
+      font-size: 0.9rem;
+      white-space: normal;
+      animation: none;
+      width: auto;
+      border: none;
+    }
+  }
