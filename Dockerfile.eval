@@ -1,0 +1,38 @@
+# Task 9: Production Docker image for evaluation only.
+# Pulls the fine-tuned model from your Hugging Face profile and runs evaluation on startup.
+#
+# Build (replace USERNAME/REPO with your HF repo):
+#   docker build -f Dockerfile.eval -t goodreads-eval:latest .
+#
+# Run (model is loaded from HF at container start):
+#   docker run --rm -e HF_REPO=USERNAME/REPO -e HF_TOKEN=your_token -v $(pwd)/results:/results goodreads-eval:latest
+#
+# On Windows (PowerShell):
+#   docker run --rm -e HF_REPO=USERNAME/REPO -e HF_TOKEN=your_token -v ${PWD}/results:/results goodreads-eval:latest
+#
+# Evaluation results are written to /results/evaluation_results.json (or EVAL_OUTPUT_DIR).
+
+FROM python:3.11-slim-bookworm
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Install dependencies (no Jupyter for smaller image)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir torch transformers scikit-learn pandas requests gdown
+
+COPY . .
+COPY scripts/run_eval_only.py /app/scripts/
+
+# Default: run evaluation on startup (HF_REPO must be set at run time)
+ENV EVAL_OUTPUT_DIR=/results
+VOLUME /results
+
+CMD ["python", "scripts/run_eval_only.py"]
