@@ -1,1 +1,1 @@
-F:/MDLOps/Assignment-4/B22BB016_ass_4_best_model.pth filter=lfs diff=lfs merge=lfs -text
+*.pth filter=lfs diff=lfs merge=lfs -text
