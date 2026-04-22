@@ -42,7 +42,7 @@ if mode == "Train Model":
             download_data(drive_link)
             
         with st.spinner(f"Training on {device} for 15 epochs..."):
-            train_pipeline(data_dir="data", epochs=15, device=device)
+            train_pipeline(data_dir="data/MLDLOPs_2026_Major_Exam", epochs=15, device=device)
             
         st.success("Training Complete! Model saved as unet_cityscapes.pth")
         st.image("training_metrics.png", caption="Training Metrics (mIoU, mDice, Loss)")

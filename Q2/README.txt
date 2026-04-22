@@ -1,0 +1,1 @@
+Question2: mIOU: 0.5461 and mDICE: 0.6054 you obtained in the testing phase.
